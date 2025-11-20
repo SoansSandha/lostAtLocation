@@ -1,11 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { Auth } from '@angular/fire/auth';
+import { Firestore, doc, getDoc, updateDoc, arrayUnion } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-join',
@@ -15,26 +17,39 @@ import { MatButtonModule } from '@angular/material/button';
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
-    MatButtonModule,
+    MatButtonModule
   ],
   templateUrl: './join.html',
   styleUrl: './join.scss',
 })
 export class Join {
+ firestore = inject(Firestore);
+  router = inject(Router);
+  auth = inject(Auth);
+  route = inject(ActivatedRoute);
+
   name = '';
   roomCode = '';
 
-  constructor(private router: Router) {}
+  async joinRoom() {
+    const user = this.auth.currentUser;
+    if (!user) return;
 
-  joinRoom() {
-    if (!this.name.trim() || !this.roomCode.trim()) return;
+    const roomRef = doc(this.firestore, 'rooms', this.roomCode.toUpperCase());
 
-    const code = this.roomCode.toUpperCase();
+    const snap = await getDoc(roomRef);
+    if (!snap.exists()) {
+      alert('Room not found');
+      return;
+    }
 
-    // Later we will verify room exists in Firestore.
-    this.router.navigate(['/room', code], {
-      state: { playerName: this.name, host: false },
+    // Add user to members array if not already there
+    await updateDoc(roomRef, {
+      members: arrayUnion({ uid: user.uid, name: this.name }),
     });
+
+    // Navigate to the room page
+    this.router.navigate(['/room', this.roomCode.toUpperCase()]);
   }
 
   cancel() {

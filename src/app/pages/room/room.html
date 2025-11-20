@@ -1,0 +1,41 @@
+<div class="room-container" *ngIf="roomData()">
+  <!-- Room Code -->
+  <div class="room-code-box">
+    <h1>{{ roomId() }}</h1>
+    <button class="copy-btn" (click)="copyCode()">Copy</button>
+
+    <span class="tooltip" *ngIf="copied()">Copied!</span>
+  </div>
+
+  <!-- Host settings -->
+  <div class="settings" *ngIf="isHost()">
+    <label>Round time: {{ roomData().settings.roundTime }} min</label>
+    <input
+      type="range"
+      min="1"
+      max="15"
+      [value]="roomData().settings.roundTime"
+    (input)="updateRoundTime($event.target.value)"
+
+
+    />
+  </div>
+
+  <!-- Player list -->
+  <div class="players">
+    <h2>Players</h2>
+    <ul>
+      <li *ngFor="let p of roomData().members">
+        <span>{{ p.name }}</span>
+        <span *ngIf="p.uid === roomData()['hostUid']" class="crown">👑</span>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Start button -->
+  <button class="start-btn" *ngIf="isHost()" (click)="startGame()">
+    Start Game
+  </button>
+</div>
+
+<div *ngIf="loading()" class="loading">Loading room...</div>
