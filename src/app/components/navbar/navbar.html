@@ -1,0 +1,16 @@
+<mat-toolbar color="primary" class="site-toolbar">
+
+  <a routerLink="/" class="brand">Lost at Location</a>
+
+  <span class="spacer"></span>
+
+  <a mat-button routerLink="/create">New Game</a>
+
+  <!-- Light/Dark Toggle -->
+  <button mat-icon-button (click)="toggle()">
+    <mat-icon>
+      {{ theme.theme === 'light' ? 'dark_mode' : 'light_mode' }}
+    </mat-icon>
+  </button>
+
+</mat-toolbar>

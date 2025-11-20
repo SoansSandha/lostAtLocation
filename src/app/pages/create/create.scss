@@ -1,0 +1,23 @@
+.page-container {
+  display: flex;
+  justify-content: center;
+  padding: 32px;
+}
+
+.create-card {
+  width: 100%;
+  max-width: 480px;
+  padding: 24px;
+  background: var(--card-bg);
+  color: var(--fg);
+}
+
+.full-width {
+  width: 100%;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+}

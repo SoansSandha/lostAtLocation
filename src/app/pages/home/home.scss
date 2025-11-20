@@ -1,0 +1,30 @@
+.home-container {
+  padding: 32px;
+  display: flex;
+  justify-content: center;
+  color: var(--fg);
+}
+
+.hero-card {
+  width: 100%;
+  max-width: 720px;
+  background: var(--card-bg);
+}
+
+
+mat-card-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.actions {
+  margin-top: 24px;
+  display: flex;
+  gap: 12px;
+}
+
+@media (max-width: 600px) {
+  .actions {
+    flex-direction: column;
+  }
+}

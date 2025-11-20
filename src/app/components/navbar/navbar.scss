@@ -1,0 +1,20 @@
+.site-toolbar {
+  background: var(--primary) !important;
+  color: var(--primary-contrast) !important;
+}
+
+.brand {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--primary-contrast);
+  text-decoration: none;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+button[mat-icon-button] mat-icon,
+a[mat-button] {
+  color: var(--primary-contrast) !important;
+}
